@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        div{
+            width: 100px;
+            height: 100px;
+            background-color: #f99;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    
+    <button>展 示</button>
+    <button>隐 藏</button>
+    <button>切 换</button>
+
+    <div></div>
+
+    <script src="./jquery-1.12.4.js"></script>
+    <script>
+        $(function(){
+            // 三组基本动画
+
+            // 一组
+            // fadeIn()     fadeOut()   fadeToggle()
+            //   淡入        淡出         切换
+    
+            // 参数和show系列的参数一致
+
+            // 三个参数都是可选的
+
+            // 注意：对于fade系列动画来说，不给参数默认有动画效果 normal
+
+            // 展示
+            $("button").eq(0).click(function () {
+                $("div").fadeIn(3000, function () {
+                    console.log("fadeIn div 3000");
+                });
+            })
+
+            // 隐藏
+            $("button").eq(1).click(function () {
+                $("div").fadeOut(3000, function () {
+                    console.log("fadeOut div");
+                });
+            })
+
+            // 切换
+            $("button").eq(2).click(function () {
+                $("div").fadeToggle(1000, function () {
+                    console.log("fadeToggle div");
+                });
+            })
+
+            // 小结：三组基本动画
+            //  show/hide/toggle
+            //  slideDown/slideUp/slideToggle
+            //  fadeIn/fadeOut/fadeToggle
+
+            // 共同点：
+            //  1. 使用的参数一致，而且都是可选的
+
+            // 不同点：
+            //  show系列动画来说：没参数没有动画效果
+            //  slide、fade系列动画来说，没有参数默认有动画效果
+        })
+    </script>
+</body>
+</html>

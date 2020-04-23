@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        * {
+        padding: 0;
+        margin: 0;
+    }
+
+    .wrap {
+        width: 300px;
+        margin: 100px auto 0;
+    }
+
+    table {
+        border-collapse: collapse;
+        border-spacing: 0;
+        border: 1px solid #c0c0c0;
+        width: 300px;
+    }
+
+    th,
+    td {
+        border: 1px solid #d0d0d0;
+        color: #404060;
+        padding: 10px;
+    }
+
+    th {
+        background-color: #09c;
+        font: bold 16px "微软雅黑";
+        color: #fff;
+    }
+
+    td {
+        font: 14px "微软雅黑";
+    }
+
+    tbody tr {
+        background-color: #f0f0f0;
+        text-align: center;
+    }
+
+    tbody tr:hover {
+        cursor: pointer;
+        background-color: #fafafa;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" id="j_cbAll" />
+                    </th>
+                    <th>菜名</th>
+                    <th>饭店</th>
+                </tr>
+            </thead>
+            <tbody id="j_tb">
+                <tr>
+                    <td>
+                        <input type="checkbox" />
+                    </td>
+                    <td>红烧肉</td>
+                    <td>田老师</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox" />
+                    </td>
+                    <td>西红柿鸡蛋</td>
+                    <td>田老师</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox" />
+                    </td>
+                    <td>红烧狮子头</td>
+                    <td>田老师</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox" />
+                    </td>
+                    <td>日式肥牛</td>
+                    <td>田老师</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script src="jquery-1.12.4.js"></script>
+    <script>
+    $(function() {
+        var $all = $("#j_cbAll");
+        var $inps = $("#j_tb input");
+
+        // 全选控制下面的
+        $all.click(function() {
+            // 简化
+            $inps.prop("checked", $(this).prop("checked"));
+        })
+
+        // 下面的控制全选
+        $inps.click(function() {
+            // $("#j_tb input:checked")
+            // $inps:checked  ==> 错误写法
+
+            // jQ的filter方法  过滤
+            var len = $inps.filter(":checked").length; // 过滤出来的选中的个数
+            // console.log(len);
+
+            // $all.prop("checked", $("#j_tb input:checked").length === $inps.length);
+            $all.prop("checked", len === $inps.length);
+        })
+    });
+    </script>
+</body>
+
+</html>

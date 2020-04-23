@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+   <style>
+       div{
+        width: 200px;
+        height: 200px;
+        background-color: #f99;
+        position: relative;
+        margin-top: 10px;
+       }
+   </style> 
+</head>
+<body>
+    
+    <div>swing</div>
+    <div>linear</div>
+
+    <script src="./jquery-1.12.4.js"></script>
+    <script>
+        $(function(){
+            // 自定义动画
+
+            // animate({}, speed, easing, callback)
+            // 参数：
+            //  第一个参数：是个对象，在对象里面定义想要实现的动画效果，这个参数必须写
+            //  后面三个参数可选的
+
+            // easing: 动画效果   swing（默认值 秋千：慢-快-慢）   linear（匀速）
+
+            // 对象里面的动画效果同时运动的
+            /*$("div").animate({
+                left: 800,
+                top: 300,
+                borderRadius: 100
+            }, 3000, function () {
+                console.log("animate 执行结束了");
+            })*/
+
+
+            // 演示easing动画效果
+
+            $("div").eq(0).animate({
+                left: 800
+            }, 8000, "swing", function () {
+                console.log("swing");
+            })
+
+            $("div").eq(1).animate({
+                left: 800
+            }, 8000, "linear", function () {
+                console.log("linear");
+            })
+
+        })
+    </script>
+</body>
+</html>
