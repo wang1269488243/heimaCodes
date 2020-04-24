@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<ul>
+			<li>
+				<label>总Checkbox</label>
+				<input name="Checkbox" type="checkbox" checked='checked' id="all">
+			</li>
+			<li>
+				<label>分Checkbox1</label>
+				<input name="Checkbox" type="checkbox" checked='checked' class="every">
+			</li>
+			<li>
+				<label>分Checkbox2</label>
+				<input name="Checkbox" type="checkbox" checked='checked' class="every">
+			</li>
+			<li>
+				<label>分Checkbox3</label>
+				<input name="Checkbox" type="checkbox" checked='checked' class="every">
+			</li>
+		</ul>
+	</body>
+	<script type="text/javascript" src="./jq.js"></script>
+	<script type="text/javascript">
+			$(function(){
+				//全选,全不选
+				$('#all').change(function(){
+					if($(this).prop('checked')){
+						$('.every').prop('checked',true)
+					}else{
+						$('.every').prop('checked',false)
+					}
+				})
+				//分按钮取消全选,分按钮全选
+				$('.every').change(function(){
+					if($('.every:checked').length == $('.every').length){
+						$('#all').prop('checked',true)
+					}else{
+						$('#all').prop('checked',false)
+					}
+				})
+				
+			})
+	</script>
+</html>

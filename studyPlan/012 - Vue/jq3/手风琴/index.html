@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul {
+            list-style: none;
+            width: 1300px;
+        }
+
+        #box {
+            width: 1200px;
+            height: 400px;
+            border: 2px solid red;
+            margin: 100px auto;
+        }
+
+        #box li {
+            width: 240px;
+            height: 400px;
+            /*border: 1px solid #000;*/
+            float: left;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box">
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    <script src="../jquery-1.12.4.js"></script>
+    <script>
+        $(function () {
+            // 功能
+            // 1. 给所有的li设置上背景图片
+            // 2. 鼠标移入到li，当前的li宽度为800，其他兄弟li宽度为100
+
+
+            // 功能1. 给所有的li设置上不同的背景图片 ==> 样式 css()
+            var $lis = $("#box li");
+
+            // 注意点：css方法在设置的时候，是会给所有的设置上相同的样式
+            // $lis.css("backgroundImage", "url(./images/1.jpg)");
+
+            // 手动循环遍历，来给每一个li实现添加不同的背景图片
+            for (var i = 0; i < $lis.length; i++) {
+                // console.log( $lis[i] ); dom对象
+                $lis.eq(i).css("backgroundImage", "url(./images/" + (i + 1) + ".jpg)")
+            }
+
+
+            // 2. 鼠标移入到li，当前的li宽度为800(动画效果)，其他兄弟li宽度为100
+            $lis.mouseenter(function () {
+              // 解决动画抽风问题：在每次做动画之前，加上stop()方法
+              $(this).stop().animate({width: 800}).siblings().stop().animate({width: 100});
+            })
+
+            // 3. 鼠标移出box，让所有的li恢复成默认的宽度
+            $("#box").mouseleave(function () {
+              $lis.stop().animate({width: 240});
+            })
+        });
+    </script>
+</body>
+
+</html>

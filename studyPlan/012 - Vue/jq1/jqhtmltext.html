@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div><span class="add">加</span> <span class="number" data-price = '1.5'> 1 </span> <span class="less">减</span> <span class="delete">删除</span></div>
+		<div><span class="add">加</span> <span class="number" data-price = '2.5'> 1 </span> <span class="less">减</span> <span class="delete">删除</span></div>
+		<div><span class="add">加</span> <span class="number" data-price = '3.5'> 1 </span> <span class="less">减</span> <span class="delete">删除</span></div>
+		<div><span>总数量:</span><span class="allnum"></span></div>
+		<div><span>总计:</span><span class="all"></span></div>
+		<div class="more">添加</div>
+		<div class="empty">清空</div>
+		<div id="">
+			<span class="addcolor1">加色1</span>
+			<span class="addcolor2">加色2</span>
+			<span class="addcolor3">加色3</span>
+		</div>
+	</body>
+	<script type="text/javascript" src="./jq.js"></script>
+	<script type="text/javascript">
+		    function all(){
+				var allnum = 0;
+				var all = 0;
+				for (var i = 0; i < $('.number').length; i++) {
+					allnum = parseFloat($('.number').eq(i).text()) + allnum
+					all += parseFloat($('.number').eq(i).attr('data-price'))*parseFloat($('.number').eq(i).text())
+				}
+				$('.allnum').text(allnum)
+				$('.all').text(all)
+			}
+			
+			all();
+			$('body').delegate('.add','click',function(){
+				$(this).parent().find('.number').text(parseFloat($(this).parent().find('.number').text()) + 1)
+				all();
+			})
+			$('body').delegate('.less','click',function(){
+				$(this).parent().find('.number').text(parseFloat($(this).parent().find('.number').text()) - 1)
+				all();
+			})
+			
+			$('body').delegate('.delete','click',function(){
+				$(this).parent().remove()
+			})
+			$('.empty').on('click',function(){
+				$(this).parent().find('.number').parent().remove();
+			})
+			$('.more').on('click',function(){
+				var str = '<div><span class="add">加</span> <span class="number" data-price = "1.5"> 1 </span> <span class="less">减</span> <span class="delete">删除</span></div>'
+				$(this).parent().find('.allnum').parent().prepend(str);
+			})
+			
+			$('.addcolor1').on('click',function(){
+				$('.number').eq(0).parent().css('color','red')
+			})
+			$('.addcolor2').on('click',function(){
+				$('.number').eq(1).parent().css('color','blue')
+			})
+			$('.addcolor3').on('click',function(){
+				$('.number').eq(2).parent().css('color','green')
+			})
+	</script>
+</html>
