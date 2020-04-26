@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<style type="text/css">
+		body{
+			overflow: hidden;
+		}
+		#button{
+			position: fixed;
+			bottom: 100px;
+			left: 40%;
+		}
+		#box p{
+			position: absolute;
+			left: -20%;
+			font-size: 20px;
+			cursor: pointer;
+		}
+	</style>
+	<body>
+		<div id="box"></div>
+		<div id="button">
+			<input type="" name="" id="" value="" />
+			<button class="save" type="button">发布</button>
+		</div>
+	</body>
+	<script type="text/javascript" src="jquery-1.12.4.min.js"></script>
+	<script type="text/javascript">
+		//弹幕功能实现:移动文字,随机颜色,随机高度,鼠标悬浮字体放大,停止运动 用封装方法实现
+		$('.save').on('click',function(){
+			fabu($('#box p').length);
+		})
+		
+		function fabu(index){
+			var color = ["#33B5E5","#0099CC","#AA66CC","#9933CC","#99CC00","#669900","#FFBB33","#FF8800","#FF4444","#CC0000"]
+			$('#box').append('<p>'+$('#button input').val()+'</p>')
+			var height = parseInt(Math.random()*($(window).height()/2)) 
+			if(index >= 0){
+				index = index-1
+			}
+			$('#box p')
+			.eq(index)//索引
+			.css({"top":height,"color":color[parseInt(Math.random()*9)]})//随机颜色和高度
+			.animate({left:$(window).width(),opacity: '0.2'},8000,'linear',function(){
+				$('#box p').eq(index).remove()
+			})//动画
+			.on('mouseenter',function(){
+				$(this).stop().css({"font-size":"36px","color":"red"})//鼠标移入停止动画字体变大
+			})
+			.on('mouseout',function(){
+				$(this)
+				.css({"font-size":"20px","color":"red"})
+				.animate({left:'100%',opacity: '0.2'},2000,'linear')//鼠标移出字体回复,继续动画
+			})
+			$('#button input').val('')
+		}
+		
+		
+	</script>
+</html>
