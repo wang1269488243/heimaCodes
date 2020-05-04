@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Document</title>
+    <link rel="stylesheet" href="./bootstrap.css">
+</head>
+
+<body style="padding:15px;">
+    <!-- <div class="container"> -->
+    <div class="panel panel-primary">
+        <div class="panel-heading">添加新图书</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-2">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                          书名
+                        </span>
+                        <input type="text" class="form-control name" placeholder="请输入书名">
+                    </div>
+                    <!-- /input-group -->
+                </div>
+                <!-- /.col-lg-6 -->
+                <div class="col-lg-2">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                          作者
+                        </span>
+                        <input type="text" class="form-control auto" placeholder="请输入作者名">
+                    </div>
+                    <!-- /input-group -->
+                </div>
+                <div class="col-lg-2">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                         出版社
+                        </span>
+                        <input type="text" class="form-control pubsh" placeholder="请输入出版社名">
+                    </div>
+                    <!-- /input-group -->
+                </div>
+                <!-- Standard button -->
+                <button type="button" class="btn btn-primary add">提交</button>
+            </div>
+            <!-- /.row -->
+        </div>
+    </div>
+    <!-- Table -->
+    <table class="table table-hover table-bordered">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>名称</th>
+                <th>作者</th>
+                <th>出版社</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    </div>
+    <script src="jquery-1.12.4.min.js"></script>
+    <script>
+        $(function() {
+            function loadPage() {
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://www.liulongbin.top:3006/api/getbooks',
+                    success: function(res) {
+                        // var str = '';
+                        var arr = [];
+                        var date = res.data;
+                        $(date).each(function(i, ele) {
+                            // str += '<tr><td>' + ele.id + '</td><td>' + ele.bookname + '</td><td>' + ele.author + '</td><td>' + ele.publisher + '</td><td data-id="' + ele.id + '" class="del">删除</td></tr>';
+                            arr.push(`<tr>
+                            <td>${ele.id}</td>
+                            <td>${ele.bookname}</td>
+                            <td>${ele.author}</td>
+                            <td>${ele.publisher}</td>
+                            <td data-id="${ele.id}" class="del">删除</td>
+                            </tr>`);
+                        });
+                        // $('tbody').append(str);
+                        $('tbody').empty().append(arr.join(''));
+                    }
+                });
+
+            }
+            loadPage();
+
+            $('.add').click(function() {
+                var bookname = $('.name').val();
+                var publisher = $('.pubsh').val();
+                var author = $('.auto').val();
+                if (bookname == '') {
+                    alert('用户名不为空');
+                }
+                if (publisher == '') {
+                    alert('出版社不为空')
+                }
+                if (author == '') {
+                    alert('作者不为空');
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://www.liulongbin.top:3006/api/addbook',
+                    data: {
+                        bookname: bookname,
+                        publisher: publisher,
+                        author: author,
+                    },
+                    success: function(res) {
+                        // console.log('添加数据成功');
+                        if (res.status !== 201) {
+                            return alert('数据添加失败');
+                        }
+                        loadPage();
+                    }
+                })
+            });
+            $('tbody').on('click', '.del', function() {
+                var id = $(this).attr('data-id');
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://www.liulongbin.top:3006/api/delbook',
+                    data: {
+                        id: id,
+                    },
+                    success: function(res) {
+                        if (res.status !== 200) {
+                            alert('删除失败');
+                        }
+                        loadPage();
+                    }
+                })
+            })
+        })
+    </script>
+</body>
+
+</html>
