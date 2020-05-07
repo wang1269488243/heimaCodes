@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+
+<body>
+  <h1>表单基本效果</h1>
+  <form>
+    <label>
+      用户名:
+      <input type="text" name="username" id="username">
+    </label>
+    <br>
+    <label>
+      密　码:
+      <input type="password" name="pwd" id="pwd">
+    </label>
+    <br>
+    <label>
+      手　机:
+      <input type="number" name="mobileNo" id="mobileNo" maxlength="11">
+    </label>
+    <br>
+    <label>
+      邮　箱:
+      <input type="email" name="uemail" id="uemail">
+    </label>
+    <br>
+
+    性　别:
+    <label><input type="radio" name="gender" id="gender"> 男</label>
+    <label><input type="radio" name="gender" id="gender"> 女</label>
+    <label><input type="radio" name="gender" id="gender"> ?</label>
+    <br>
+
+    兴　趣:
+    <label><input type="checkbox" name="hobby" id="hobby"> 篮球</label>
+    <label><input type="checkbox" name="hobby" id="hobby"> 足球</label>
+    <label><input type="checkbox" name="hobby" id="hobby"> 打游戏</label>
+    <label><input type="checkbox" name="hobby" id="hobby"> 看电影</label>
+    <label><input type="checkbox" name="hobby" id="hobby"> 听音乐</label>
+    <br>
+
+    <!-- input为 submit 类型的表单 和 button按钮 点击时都会自动提交-->
+    <input type="submit" value="提 交">
+    <!-- form里的 button按钮 默认有提交功能 -->
+    <button>提 交</button>
+  </form>
+</body>
+
+</html>

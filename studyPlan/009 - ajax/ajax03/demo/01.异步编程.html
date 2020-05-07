@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  
+  <script type="text/javascript" src="./lib/jquery.js"></script>
+  <script type="text/javascript">
+    var books = null
+
+    // Ajax发送请求的过程是异步的（浏览器不等待服务器返回结果）
+    // Ajax的异步的结果只能在回调函数中得到
+    $.get('http://www.liulongbin.top:3006/api/getbooks', function (res) {
+      console.log(res)
+      books = res.data
+      // console.log(456)
+      console.log(books)
+    })
+
+    // console.log(123)
+    // console.log(books)
+  </script>
+</body>
+</html>

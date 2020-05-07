@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+
+<body>
+  <h1>基于Ajax提交表单</h1>
+  <form id="bookForm" action="" method="POST" target="_blank">
+    <div>
+      <label for="bookname">图书名: </label>
+      <input type="text" name="bookname" id="bookname">
+    </div>
+    <div>
+      <label for="author">作　者: </label>
+      <input type="text" name="author" id="author">
+    </div>
+    <div>
+      <label for="publisher">出版社: </label>
+      <input type="text" name="publisher" id="publisher">
+    </div>
+    <!-- input为 submit 类型的表单 和 button按钮 点击时都会自动提交-->
+    <input type="submit" value="提 交">
+    <!-- form里的 button按钮 默认有提交功能 -->
+    <!-- <button>提 交</button> -->
+    </div>
+  </form>
+  <script src="./lib/jquery.js"></script>
+  <script>
+    // 为表单域绑定submit时间
+    $('#bookForm').eq(0).on('submit', function (e) {
+      // 阻止浏览器的默认行为(自动提交) 
+      e.preventDefault()
+
+      // 可以通过Ajax方式提交表单
+      /* var bookname = $('#bookname').val().trim()
+      var author = $('#author').val().trim()
+      var publisher = $('#publisher').val().trim()
+      $.ajax({
+        type: 'POST',
+        url: 'http://www.liulongbin.top:3006/api/addbook',
+        data: {
+          bookname: bookname,
+          author: author,
+          publisher: publisher,
+        },
+
+        // 
+        success: function (res) {
+          console.log(res);
+        }
+      }) */
+
+      // 以上需要获取每一个表单的数据才行, 代码比较繁琐
+      // jQ提供了一种快速所有表单输入域的数据的方法
+      var formData = $(this).serialize() // this 指向的是事件源 form表单
+      console.log(formData);
+      $.post('http://www.liulongbin.top:3006/api/addbook', formData, function (res) {
+        console.log(res);
+      })
+
+
+      // 或者 return false 阻止默认行为
+    })
+
+  </script>
+</body>
+
+</html>

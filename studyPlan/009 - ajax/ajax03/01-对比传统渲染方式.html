@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <div id="info"></div>
+  <script type="text/javascript" src="./lib/jquery.js"></script>
+  <script type="text/javascript">
+    var userInfo = {
+      uname: '张三',
+      age: 12,
+      gender: '男'
+    }
+    
+    // 通过字符串拼接的方式进行渲染：把数据拼接到标签中
+    var tags = '<div><div>姓名： ' + userInfo.uname + '</div> <div>年龄：' + userInfo.age + '</div> <div>性别：' + userInfo.gender + '</div> </div>'
+
+    $('#info').html(tags)
+  </script>
+</body>
+</html>

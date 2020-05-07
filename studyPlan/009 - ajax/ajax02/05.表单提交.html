@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+
+<body>
+  <div>
+    <h1>表单提交</h1>
+    <form action="http://www.liulongbin.top:3006/api/addbook" method="POST" target="_blank">
+      <div>
+        <label for="bookname">图书名: </label>
+        <input type="text" name="bookname" id="bookname">
+      </div>
+      <div>
+        <label for="author">作　者: </label>
+        <input type="text" name="author" id="author">
+      </div>
+      <div>
+        <label for="publisher">出版社: </label>
+        <input type="text" name="publisher" id="publisher">
+      </div>
+      <!-- input为 submit 类型的表单 和 button按钮 点击时都会自动提交-->
+      <input type="submit" value="提 交">
+      <!-- form里的 button按钮 默认有提交功能 -->
+      <button>提 交</button>
+  </div>
+  </form>
+  </div>
+</body>
+
+</html>

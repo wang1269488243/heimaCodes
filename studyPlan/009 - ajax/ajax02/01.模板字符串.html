@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<style>
+  table {
+    border-collapse: collapse;
+  }
+
+  th,
+  td {
+    border: 1px solid #000;
+    text-align: center;
+  }
+</style>
+
+<body>
+  <table cellpadding="2px" cellspacing="0" width="400">
+    <thead>
+      <tr>
+        <th>姓名</th>
+        <th>年龄</th>
+        <th>性别</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    // ES6 模板字符串
+    var info = [{
+      name: 'zs',
+      age: 18,
+      gender: 'male'
+    }, {
+      name: 'ls',
+      age: 19,
+      gender: 'male'
+    }, {
+      name: 'cuihua',
+      age: 18,
+      gender: 'female'
+    }]
+    // 传统做法
+    /* var str = ''
+    info.forEach(function (item, index) {
+      str += '<tr>'
+      // console.log(item, index);
+      for (var k in item) {
+        str += '<td>' + item[k] + '</td>'
+      }
+      str += '</tr>'
+    }) */
+
+    // ES6模板字符串
+    var str = ''
+    info.forEach(function (item, index) {
+      // console.log(item, index);
+      str += '<tr>'
+      for (var k in item) {
+        str += `
+          <td>${item[k]}</td>
+        `
+      }
+      str += '</tr>'
+    })
+    document.querySelector('tbody').innerHTML = str
+  </script>
+
+</body>
+
+</html>

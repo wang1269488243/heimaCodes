@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+
+<body>
+  <div>
+    <h1>表单常用输入域--隐藏域</h1>
+    <input type="hidden" value="哈哈哈哈" name="uId" id="uId">
+    <button id="btn">点 击</button>
+  </div>
+  <script>
+    // 隐藏域的内容不会显示在页面中, 但是表单提交时会把隐藏域的数据提交
+    // 主要用于编辑操作时, 隐藏域临时存放id信息
+    document.querySelector('#btn').addEventListener('click', function () {
+      console.log(this.previousElementSibling.value);
+    })
+
+  </script>
+</body>
+
+</html>

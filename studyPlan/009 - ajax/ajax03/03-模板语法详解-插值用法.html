@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <div id="info"></div>
+  <script type="text/javascript" src="./lib/jquery.js"></script>
+  <script type="text/javascript" src="./lib/template-web.js"></script>
+  <script id="user-tpl" type="text/html">
+    <div>
+      <div>姓名：{{uname}}</div>      
+      <div>年龄：{{age}}</div>      
+      <div>性别：{{gender}}</div>      
+      <div>性别：{{score}}</div>      
+    </div>
+  </script>
+  <script type="text/javascript">
+    // art-template常用模板语法
+    // 1、插值用法
+    //   如果插值显示时添加@符号，那么浏览器会解析其中的内容：比如h1会高亮
+    //   默认不加@符号，显示原始的字符串
+    // 2、条件渲染
+    // 3、列表渲染
+    // 4、过滤器
+    var userInfo = {
+      uname: '张三',
+      age: 12,
+      gender: '男',
+      score: '<h1>100</h1>'
+    }
+
+    // 通过模板引擎把数据填充到模板中
+    var ret = template('user-tpl', userInfo)
+    // 把静态HTML片段放到页面中即可
+    $('#info').html(ret)
+  </script>
+</body>
+</html>

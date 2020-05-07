@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  
+  <script type="text/javascript" src="./lib/jquery.js"></script>
+  <script type="text/javascript">
+
+    // 是否可以再回调函数之外得到结果？
+    // function getBooks () {
+    //   $.get('http://www.liulongbin.top:3006/api/getbooks', function (res) {
+    //     var books = res.data
+    //     return books
+    //   })
+    // }
+
+    // function getBooks () {
+    //   var books = null
+    //   $.get('http://www.liulongbin.top:3006/api/getbooks', function (res) {
+    //     books = res.data
+    //   })
+    //   return books
+    // }
+
+    // var ret = getBooks()
+    // console.log(ret)
+
+    // 无法通过返回值得到异步结果，必须通过回调函数才可以
+    function getBooks (fn) {
+      $.get('http://www.liulongbin.top:3006/api/getbooks', function (res) {
+        var books = res.data
+        // 调用形成传递过来的回调函数，并且把异步结果传给他的实参
+        fn(books)
+      })
+    }
+
+    // 必须通过回调函数才可以得到异步结果
+    getBooks(function (data) {
+      console.log(data)
+    })
+
+
+
+  </script>
+</body>
+</html>

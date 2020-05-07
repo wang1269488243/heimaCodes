@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+
+<body>
+  <div id="fruit"></div>
+  <script>
+    // 自定义属性
+    var arr = [{
+      id: 1,
+      fname: 'apple'
+    }, {
+      id: 2,
+      fname: 'eggplant'
+    }, {
+      id: 3,
+      fname: 'lemon'
+    }]
+    var fTag = '<ul>'
+    arr.forEach(function (item, index) {
+      fTag += `
+        <li data-fit="haha" data-id="${item.id}">
+          ${item.fname}
+        </li>
+        `
+    })
+    fTag += '</ul>'
+    document.querySelector('#fruit').innerHTML = fTag
+
+    document.querySelector('ul').onclick = function (e) {
+      // e.target表示事件源
+      // 所有的自定义属性都是以data-开始的
+      // dataset表示元素所有的自定义属性, 是原生js的API
+      console.log(e.target.dataset.id, e.target.dataset.fit);
+      // console.log(e.target.getAttribute('data-id'));
+      // console.log(e.target.getAttribute('data-fit'));
+
+    }
+
+  </script>
+</body>
+
+</html>

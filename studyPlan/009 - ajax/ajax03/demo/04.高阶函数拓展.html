@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <script type="text/javascript" src="./lib/jquery.js"></script>
+  <script type="text/javascript">
+    // 高阶函数：如果一个函数，他的参数是一个函数或者返回值是一个函数，那么该函数就是高阶函数
+    // 目前异步的场景：定时任务；Ajax的回调函数；事件处理函数
+    function foo (fn) {
+      // var books = [{id: 1, bname: '水浒传'}]
+      // setTimeout(function () {
+      //   fn(books)
+      // }, 5000)
+      // ---------------
+      $.get('http://www.liulongbin.top:3006/api/getbooks', function (res) {
+        // Ajax异步结果传回来之后采取调用fn
+        fn(res.data)
+      })
+    }
+
+    // 回调函数：空手进去 满载而归
+    // 要求：data数据5秒后才可以得到
+    foo(function (data) {
+      console.log(data)
+    })
+  </script>
+</body>
+</html>

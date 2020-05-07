@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <script type="text/javascript">
+    // 异步编程测试
+    
+    console.log(1)
+
+//     0表示以浏览器默认的最小延时时间执行
+       setTimeout(function () {
+         console.log(2)
+       }, 0)
+//     --------------------------------------
+       $.get('http://localhost:3000/data', function () {
+         console.log(2)
+       })
+
+    console.log(3)
+  </script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <script type="text/javascript" src="./lib/jquery.js"></script>
+  <script type="text/javascript">
+    
+    // 客户端发送消息，服务端返回回复消息
+    function getMsg (callback) {
+      $.get('http://www.liulongbin.top:3006/api/robot', {
+        spoken: '你好'
+      }, function (res) {
+        // 服务端返回消息后传递给回调函数
+        callback(res.data.info.text)
+      })
+    }
+
+    // 客户端发送消息，服务器返回转换后的语音数据
+    function changeVoice (callback, msg) {
+      $.get('http://www.liulongbin.top:3006/api/synthesize', {
+        text: msg
+      }, function (res) {
+        // 服务器返回的语音数据传递给回调函数
+        callback(res)
+      })
+    }
+
+    getMsg(function (msg) {
+      // 上一个异步的结果作为下一个异步任务的参数
+      changeVoice(function (voice) {
+        // 这里voice就是最终得到的语音数据
+        console.log(voice)
+      }, msg)
+    })
+    
+  </script>
+</body>
+</html>

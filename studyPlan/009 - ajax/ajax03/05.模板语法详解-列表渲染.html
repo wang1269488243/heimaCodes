@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <div id="info"></div>
+  <script type="text/javascript" src="./lib/jquery.js"></script>
+  <script type="text/javascript" src="./lib/template-web.js"></script>
+  <script id="user-tpl" type="text/html">
+    <div>
+      <div>姓名：{{uname}}</div>  
+      <div>生日：{{birthday | formatDate}}</div>  
+      <div>昵称：{{nickname | changeInfo}}</div>  
+      <div>年龄：{{age}}</div>      
+      {{if gender === 1}}
+        <div>性别：男</div>  
+      {{else if gender === 2}}    
+        <div>性别：女</div>  
+      {{else}}
+        <div>性别：不确定</div>
+      {{/if}}
+      <div>性别：{{score}}</div>      
+      <div>
+      {{each hobby}}        
+        <div>索引：{{$index}};爱好：{{$value}}</div>
+      {{/each}}
+      </div>
+    </div>
+  </script>
+  <script type="text/javascript">
+    // art-template常用模板语法
+    // 1、插值用法
+    //   如果插值显示时添加@符号，那么浏览器会解析其中的内容：比如h1会高亮
+    //   默认不加@符号，显示原始的字符串
+    // 2、条件渲染
+    //   if
+    //   else
+    // 3、列表渲染
+    //   each
+    // 4、过滤器
+    // 
+    
+    // 通过art-template自定义过滤器
+    // ate.defaults.imports是art-template规定的
+    // 参数表示原始的数据
+    template.defaults.imports.formatDate = function (date) {
+      // 格式化日期
+      var year = date.getFullYear()
+      var month = date.getMonth() + 1
+      var day = date.getDate()
+      // 自己拼接时间格式
+      return year + '-' + month + '-' + day
+    }
+
+    template.defaults.imports.changeInfo = function (str) {
+      // 把字符串首字符转成大写
+      // 获取第一个字符并转成大写
+      var firstLetter = str.charAt(0).toUpperCase()
+      // 获取除第一个字符之外的字符串
+      var otherLeter = str.substr(1)
+      return firstLetter + otherLeter
+    }
+
+    var userInfo = {
+      uname: '张三',
+      age: 12,
+      gender: 3,
+      nickname: 'doudou',
+      score: '<h1>100</h1>',
+      hobby: ['吸烟', '喝酒', '烫头', '吃饭', '睡觉', '打豆豆'],
+      birthday: new Date()
+    }
+
+    // 通过模板引擎把数据填充到模板中
+    var ret = template('user-tpl', userInfo)
+    // 把静态HTML片段放到页面中即可
+    $('#info').html(ret)
+  </script>
+</body>
+</html>

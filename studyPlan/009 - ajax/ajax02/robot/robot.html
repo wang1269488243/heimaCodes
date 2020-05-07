@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>聊天机器人</title>
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+  <div class="wrap">
+    <!-- 头部 Header 区域 -->
+    <div class="header">
+      <h3>小思同学</h3>
+      <img src="img/person01.png" alt="icon" />
+    </div>
+    <!-- 中间 聊天内容区域 -->
+    <div class="main">
+      <ul class="talk_list" style="top: 0px;" id="talk_list">
+        <li class="left_word">
+          <img src="img/person01.png" /> <span>嗨，最近想我没有？</span>
+        </li>
+        <!-- <li class="right_word">
+          <img src="img/person02.png" /> <span>嗨，最近想我没有？</span>
+        </li> -->
+      </ul>
+      <div class="drag_bar" style="display: none;">
+        <div class="drager ui-draggable ui-draggable-handle" style="display: none; height: 412.628px;"></div>
+      </div>
+    </div>
+    <!-- 底部 消息编辑区域 -->
+    <div class="footer">
+      <img src="img/person02.png" alt="icon" />
+      <input type="text" placeholder="说的什么吧..." class="input_txt" id="ipt" />
+      <input type="button" value="发 送" class="input_sub" id="sendBtn" />
+    </div>
+  </div>
+  <audio src="" id="voice" autoplay style="display: none;"></audio>
+  <script src="js/jquery-1.12.4.min.js"></script>
+  <script src="js/jquery-ui.min.js"></script>
+  <script src="js/jquery.mousewheel.js"></script>
+  <script src="js/scroll.js"></script>
+  <script src="js/mychat.js"></script>
+</body>
+
+</html>

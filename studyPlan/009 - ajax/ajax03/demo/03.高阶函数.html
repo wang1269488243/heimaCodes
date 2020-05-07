@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <script type="text/javascript">
+    // 高阶函数：如果一个函数，他的参数是一个函数或者返回值是一个函数，那么该函数就是高阶函数
+  
+    // foo的参数是一个函数
+    // function foo (fn) {
+
+    // }
+
+    // foo(function () {
+
+    // })
+    // -----------------------------
+    // foo的返回值是一个函数
+    // function foo () {
+    //   return function () {
+
+    //   }
+    // }
+    // var fn = foo()
+    
+
+    function foo (fn) {
+      var books = [{id: 1, bname: '水浒传'}]
+      fn(books)
+    }
+
+    // 回调函数：空手进去 满载而归
+    foo(function (data) {
+      console.log(data)
+    })
+  </script>
+</body>
+</html>

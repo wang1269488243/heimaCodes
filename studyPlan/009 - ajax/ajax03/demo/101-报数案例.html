@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <script type="text/javascript">
+    // 模拟报数：
+    
+    // 第一个同学报数1
+    function sayNumber1(callback) {
+      setTimeout(function () {
+        var num = 1
+        callback(num)
+      }, 2000)
+    }
+
+    // 获取报数结果
+    // sayNumber1(function (n) {
+    //   console.log(n)
+    // })
+
+    // 第二个同学报数依赖于上一个同学的报数
+    function sayNumber2(callback, preNumber) {
+      // 从第二个参数得到上一次报数
+      setTimeout(function () {
+        // var num = 2
+        callback(preNumber + 1)
+      }, 1000)
+    }
+
+    // 第三个同学报数依赖于上一个同学的报数
+    function sayNumber3(callback, preNumber) {
+      // 从第二个参数得到上一次报数
+      setTimeout(function () {
+        // var num = 3
+        callback(preNumber + 1)
+      }, 3000)
+    }
+
+    // sayNumber2(function (n) {
+    //   console.log(n)
+    // })
+
+
+    // 连续报数
+    sayNumber1(function (n) {
+      // 得到第一次报数的结果n = 1
+      // 上次的报数结果要传递给下一个同学
+      sayNumber2(function (n2) {
+        // 获取第二个同学的报数结果
+        sayNumber3(function (n3) {
+          // 获取第三个同学的报数
+          console.log(n3)
+        }, n2)
+      }, n)
+    })
+
+    // 上述代码的风格：回调地狱（多层回调函数的嵌套）
+
+
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <div id="info"></div>
+  <script type="text/javascript" src="./lib/jquery.js"></script>
+  <script type="text/javascript" src="./lib/template-web.js"></script>
+  <script id="user-tpl" type="text/html">
+    <div>
+      <div>姓名：{{uname}}</div>      
+      <div>年龄：{{age}}</div>      
+      <div>性别：{{gender}}</div>      
+    </div>
+  </script>
+  <script type="text/javascript">
+    // 基于art-template实现数据渲染
+    // 1、导入模板引擎js库
+    // 2、实现模板结构并填充数据
+    // 3、调用js方法实现渲染
+    var userInfo = {
+      uname: '张三',
+      age: 12,
+      gender: '男'
+    }
+
+    // 通过模板引擎把数据填充到模板中
+    // template参数一表示模板的ID；参数二表示表示渲染模板数据
+    // 模板 + 数据 => 静态的HTML片段
+    var ret = template('user-tpl', userInfo)
+    // 把静态HTML片段放到页面中即可
+    $('#info').html(ret)
+    
+  </script>
+</body>
+</html>

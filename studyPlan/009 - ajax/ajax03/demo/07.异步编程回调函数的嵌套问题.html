@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+
+  <script type="text/javascript" src="./lib/jquery.js"></script>
+  <script type="text/javascript">
+    
+    // 16行和22行谁先打印是否确定？不确定
+    // $.get('http://www.liulongbin.top:3006/api/robot', {
+    //   spoken: '你好'
+    // }, function (res1) {
+    //   console.log(res1)
+    // })
+
+    // $.get('http://www.liulongbin.top:3006/api/synthesize', {
+    //   text: '你也好'
+    // }, function (res2) {
+    //   console.log(res2)
+    // })
+    
+
+    // 回调地狱：异步任务回调函数的多层嵌套
+    // 如何解决回调地狱的问题？Promise --> async/await
+    $.get('http://www.liulongbin.top:3006/api/robot', {
+      spoken: '你好'
+    }, function (res1) {
+      console.log(res1)
+      // 上一次异步任务的结果作为下一次请求的参数
+      $.get('http://www.liulongbin.top:3006/api/synthesize', {
+        text: res1.data.info.text
+      }, function (res2) {
+        console.log(res2)
+      })
+    })
+
+    
+
+  </script>
+</body>
+</html>
