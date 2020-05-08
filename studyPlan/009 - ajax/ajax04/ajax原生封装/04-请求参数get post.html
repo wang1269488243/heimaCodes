@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Document</title>
+	</head>
+
+	<body>
+		<button id="btn">点击</button>
+		<script>
+			var btn = document.getElementById('btn');
+			btn.onclick = function() {
+				//创建Xhr实例对象
+				var xhr = new XMLHttpRequest();
+				//准备发送请求的相关参数
+				// 常用的请求方式get(用于查询信息) 和post（ 用于提交信息）
+				// xhr.open('get', 'http://www.liulongbin.top:3006/api/getbooks');
+				xhr.open('post', 'http:www.liulongbin.top:3006/api/addbook');
+				//执行发送请求的动作
+				// xhr.send(null);
+				//执行post动作是必须有请求头content-type
+				xhr.setRequestHeader('content-Type', 'application/x-www-form-urlencoded')
+				xhr.send('bookname=hello&author=abc&publisher=n11111');
+				xhr.onreadystatechange = function() {
+					//指定回调函数,用于处理服务器的返回
+					if(xhr.readyState === 4 && xhr.status === 200) {
+						//如果xhr。readyState==4且xhr.status===200那么就表示可以获取服务器返回的正常数据
+						var ret = xhr.responseText;
+						console.log(ret);
+						console.log(typeof ret)
+					}
+				}
+			}
+		</script>
+	</body>
+
+</html>

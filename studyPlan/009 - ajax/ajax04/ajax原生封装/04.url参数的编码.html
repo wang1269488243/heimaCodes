@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>Document</title>
+	</head>
+
+	<body>
+		<script>
+			var str = '黑马程序员';
+			var ret = encodeURI(str);
+			console.log(ret);
+			var str1 = decodeURI(ret);
+			console.log(str1);
+			var ustr = encodeURI(uname);
+			var xhr = new XMLHttpRequest();
+			xhr.open('get', 'http://www.liulongbin.top:3006/api/getbooks?uname=' + ustr);
+			xhr.send();
+			xhr.onreadystatechange = function() {};
+			// xMLHttpRequest open send onreadystatechange
+		</script>
+	</body>
+
+</html>

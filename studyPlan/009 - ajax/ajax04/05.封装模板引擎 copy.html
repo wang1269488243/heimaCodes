@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>Document</title>
+	</head>
+
+	<body>
+		<div id="info"></div>
+		<script src="my-template copy.js"></script>
+		<script type="text/html" id="tpl-info">
+			<div>姓名：{{name}}</div>
+			<div>年龄：{{age}}</div>
+			<div>性别：{{gender}}</div>
+		</script>
+		<script>
+			var data = {
+				name: 'zas',
+				age: 20,
+				gender: '男',
+			}
+			var ret = myTemplate('tpl-info', data);
+			console.log(ret);
+			var div = document.getElementById('info');
+			div.innerHTML = ret;
+		</script>
+	</body>
+
+</html>

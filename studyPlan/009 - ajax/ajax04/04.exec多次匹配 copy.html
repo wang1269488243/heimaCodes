@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>Document</title>
+	</head>
+
+	<body>
+		<script type="text/javascript">
+			var info = '<div>hello {{ uname }}，你多大了？ 我{{age}}岁了</div>'
+			var user = {
+				uname: '张三',
+				age: 12
+			}
+			var pattern = /{{\s*([a-zA-Z]+)\s*}}/
+			var ret = pattern.exec(info);
+			var key = ret[0]; //{{uname}}
+			var value = user[ret[1]]; //[]的原因是因为ret是一个变量，所以不用ret
+			var result1 = info.replace(key, value);
+			console.log(result1);
+			var ret2 = pattern.exec(result1);
+			var key1 = ret2[0];
+			var value1 = user[ret2[1]];
+			var result2 = result1.replace(key1, value1);
+			console.log(result2);
+		</script>
+	</body>
+
+</html>

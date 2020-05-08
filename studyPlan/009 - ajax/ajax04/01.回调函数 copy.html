@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>Document</title>
+	</head>
+
+	<body>
+		<script type="text/javascript">
+			// 回调函数一定是匿名函数 其中的this是谁调用this指向谁
+			// setTimeout(function() {}, 1000) //函数只是声明并没有调用
+			//     //数组中有过滤方法filter(从数组中过滤符合条件的数据形成新数组)
+			var arr = [11, 22, 33, 44, 55, 66, 77];
+			// var ret = arr.filter(function(item) {
+			//     if (item > 10) {
+			//         console.log(item);
+			//     }
+			// })
+			// console.log(ret);
+			//原理解释filter
+			Array.prototype.myFilter = function(callback) {
+				var ret = [];
+				var arr = this;
+				for(var i = 0; i < this.length; i++) {
+					var num = this[i];
+					var flag = callback(num);
+					if(flag) {
+						ret.push(num);
+					}
+				}
+				return ret;
+			}
+
+			var ret = arr.myFilter(function(item) {
+				return item > 10;
+			})
+			console.log(ret);
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>Document</title>
+	</head>
+
+	<body>
+		<script type="text/javascript">
+			// 字符串的批量替换
+			var info = '<div>hello {{uname}}，你多大了？ 我{{age}}岁了</div>'
+			var user = {
+				uname: '张三',
+				age: 12
+			}
+
+			var pattern = /{{\s*([a-zA-Z]+)\s*}}/;
+			var ret = pattern.exec(info);
+			var key = ret[0];
+			var val = user[ret[1]];
+			var result = info.replace(key, val);
+		</script>
+	</body>
+
+</html>

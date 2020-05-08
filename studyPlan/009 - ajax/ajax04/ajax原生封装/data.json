@@ -1,0 +1,25 @@
+[
+	{
+		"uname": "lisi",
+		"age": 12
+	}, {
+		"uname": "zhangsan",
+		"age": 13,
+		"score": [
+			100,
+			99
+		],
+		"friends": [
+			{
+				"fname": "wangfugui",
+				"age": 11
+			}, {
+				"fname": "zhangyoucai",
+				"age": 12
+			}
+		],
+		"info": {
+			"abc": "hello"
+		}
+	}
+]

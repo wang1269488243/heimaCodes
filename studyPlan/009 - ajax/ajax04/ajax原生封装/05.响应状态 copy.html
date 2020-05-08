@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>Document</title>
+	</head>
+
+	<body>
+		<button id="btn">点击</button>
+		<script type="text/javascript">
+			// 原生Ajax发送请求的基本步骤 ： XMLHttpRequest
+			var btn = document.getElementById('btn')
+			btn.onclick = function() {
+				// 通过原生Ajax发送请求
+				// 1、创建xhr实例对象
+				var xhr = new XMLHttpRequest()
+				// 2、准备发送请求的相关参数
+				xhr.open('get', 'http://www.liulongbin.top:3006/api/getbooks')
+				// 3、执行发送请求的动作
+				xhr.send(null)
+				// 4、指定回调函数，用于处理服务器的返回
+				// 回调函数不止调用一次（xhr.readyState发生变化时触发）
+				xhr.onreadystatechange = function() {
+					// 该函数是服务器返回数据后触发，该方法不仅仅触发一次
+					// xhr.readyState === 4 表示已经收到服务器返回的全部数据
+					// xhr.status === 200 表示收到的数据是正常的
+					if(xhr.readyState === 4 && xhr.status === 200) {
+						// 如果上述两个条件都满足，就可以获取服务器返回的正常数据
+						// ret 是普通字符串
+						var ret = xhr.responseText
+						console.log(ret)
+						console.log(typeof ret)
+					}
+				}
+			}
+		</script>
+	</body>
+
+</html>
