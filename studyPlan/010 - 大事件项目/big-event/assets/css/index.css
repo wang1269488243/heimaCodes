@@ -1,0 +1,39 @@
+.layui-icon {
+    margin-right: 8px;
+    font-size: 18px;
+}
+
+.text-img {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    background-color: #419488;
+    border-radius: 50%;
+    font-size: 18px;
+    display: none;
+}
+
+
+.left-username {
+    display: block;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    color: #fff;
+}
+
+iframe {
+    width: 100%;
+    height: 100%;
+}
+
+.layui-body {
+    overflow: hidden;
+}
+
+.left-username{
+	text-align: left;
+	margin-left: 5px;
+}

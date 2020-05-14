@@ -1,0 +1,21 @@
+body{
+	background-color: #f2f3f5;
+	padding: 15px;
+}
+.userinfo_box{
+	background-color: #fff;
+}
+.userinfo_box .title{
+	height: 42px;
+    line-height: 42px;
+    padding: 0 15px;
+    border-bottom: 1px solid #f6f6f6;
+    color: #333;
+    border-radius: 2px 2px 0 0;
+    font-size: 14px;
+}
+.userinfo_form{
+	position: relative;
+    padding: 10px 15px;
+    line-height: 24px;
+}
