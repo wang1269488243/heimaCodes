@@ -1,10 +1,134 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
 	</head>
+	<style type="text/css">
+		body {
+			background-color: #f2f3f5;
+			padding: 15px;
+		}
+		
+		#change_headphoto {
+			background-color: #fff;
+		}
+		
+		#change_headphoto .title {
+			height: 42px;
+			line-height: 42px;
+			padding: 0 15px;
+			border-bottom: 1px solid #f6f6f6;
+			color: #333;
+			border-radius: 2px 2px 0 0;
+			font-size: 14px;
+		}
+		
+		.headphoto {
+			padding: 10px 15px;
+			width: 325px;
+		}
+		
+		#change_headphoto .headphoto img {
+			width: 325px;
+		}
+		
+		#change_headphoto .button {
+			padding: 15px;
+			text-align: center;
+		}
+		
+		#headpic {
+			margin-right: 10px;
+		}
+	</style>
+	<link rel="stylesheet" href="assets/lib/cropper/Cropper.css">
+	<link rel="stylesheet" href="assets/lib/layui/css/layui.css">
+	<script src="assets/lib/jquery.js"></script>
+	<script src="assets/lib/layui/layui.all.js"></script>
+
 	<body>
-		更换头像
+		<div id="change_headphoto">
+			<div class="title">
+				更换头像
+			</div>
+			<div class="headphoto">
+				<img src="assets/images/sample.jpg">
+			</div>
+			<div class="layui-upload button">
+				<button type="button" class="layui-btn" id="headpic">上传</button>
+				<button type="button" class="layui-btn layui-btn-normal" id="surepic">确定</button>
+			</div>
+			<img id="img" src="" />
+		</div>
 	</body>
+
+	<script src="assets/lib/cropper/Cropper.js"></script>
+	<script src="assets/lib/cropper/jquery-cropper.js"></script>
+	<script type="text/javascript">
+		if(localStorage.getItem('user_pic')) {
+			$('.headphoto img').attr('src', localStorage.getItem('user_pic'))
+		}
+		$('.headphoto > img').cropper({
+			aspectRatio: 1 / 1,
+			background: false,
+			modal: false,
+			crop: function(data) {
+
+			}
+		});
+		$('#surepic').on('click', function() {
+			var dataimg = $('.headphoto > img').cropper('getCroppedCanvas').toDataURL('image/jpeg'); // 获取被裁剪后的canvas 
+			$.ajax({
+				type: "post",
+				url: "http://www.liulongbin.top:3007/my/update/avatar",
+				data: {
+					avatar: dataimg
+				},
+				headers: {
+					Authorization: localStorage.getItem('token')
+				},
+				success: function(res) {
+					layer.open({
+						title: '成功',
+						content:'头像修改成功'
+					});
+					window.location.reload()
+				}
+			});
+
+		})
+		layui.use('upload', function() {
+			var $ = layui.jquery,
+				upload = layui.upload;
+			//普通图片上传
+			var uploadInst = upload.render({
+				elem: '#headpic',
+				url: 'https://httpbin.org/post', //改成您自己的上传接口
+				before: function(obj) {
+					//预读本地文件示例，不支持ie8
+					obj.preview(function(index, file, result) {
+						$('.headphoto img').attr('src', result); //图片链接（base64）
+					});
+				},
+				done: function(res) {
+					//如果上传失败
+					if(res.code > 0) {
+						return layer.msg('上传失败');
+					}
+					//上传成功
+				},
+				/*error: function() {
+					//演示失败状态，并实现重传
+					var demoText = $('#demoText');
+					demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+					demoText.find('.demo-reload').on('click', function() {
+						uploadInst.upload();
+					});
+				}*/
+			});
+		})
+	</script>
+
 </html>

@@ -1,10 +1,126 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="UTF-8">
-		<title></title>
-	</head>
-	<body>
-		文章列表
-	</body>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文章列表</title>
+    <!-- 加载所需的js和css -->
+    <link rel="stylesheet" href="assets/lib/layui/css/layui.css">
+    <link rel="stylesheet" href="assets/lib/nprogress/nprogress.css">
+    <link rel="stylesheet" href="assets/css/article/article.css">
+
+    <script src="assets/lib/jquery.js"></script>
+    <script src="assets/lib/layui/layui.all.js"></script>
+    <!-- 加载模板引擎 -->
+    <script src="assets/lib/template-web.js"></script>
+    <script src="assets/lib/nprogress/nprogress.js"></script>
+    <script src="assets/js/common.js"></script>
+    <script src="assets/js/article/article.js"></script>
+</head>
+
+<body>
+    <div class="layui-card">
+        <div class="layui-card-header">文章列表</div>
+        <div class="layui-card-body">
+            <!-- 搜索区 -->
+            <form class="layui-form">
+                <div class="layui-form-item">
+
+                    <div class="layui-inline">
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <select name="city" lay-verify="">
+                                <option value="">请选择一个城市</option>
+                                <option value="010">北京</option>
+                                <option value="021">上海</option>
+                                <option value="0571">杭州</option>
+                            </select>
+                        </div>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <select name="city" lay-verify="">
+                                <option value="">请选择一个城市</option>
+                                <option value="010">北京</option>
+                                <option value="021">上海</option>
+                                <option value="0571">杭州</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="layui-inline">
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <button class="layui-btn" lay-submit lay-filter="formDemo">筛选</button>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+            <!-- 表格区（文章列表区） -->
+            <table class="layui-table">
+                <colgroup>
+                    <col width="40%">
+                    <col width="15%">
+                    <col width="15%">
+                    <col width="15%">
+                    <col>
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>文章标题</th>
+                        <th>分类</th>
+                        <th>发表时间</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    <!-- 这里放数据 -->
+
+                </tbody>
+            </table>
+            <!-- 分页区 -->
+            <div id="page"></div>
+        </div>
+    </div>
+
+
+
+    <!-- 定义文章列表模板 -->
+    <script id="tpl-article" type="text/html">
+        {{each data val}}
+        <tr>
+            <td>{{val.title}}</td>
+            <td>{{val.cate_name}}</td>
+            <td>{{val.pub_date}}</td>
+            <td>{{val.state}}</td>
+            <td>
+                <button type="button" class="layui-btn layui-btn-xs edit">编辑</button>
+                <button type="button" class="layui-btn layui-btn-xs layui-btn-danger delete">删除</button>
+            </td>
+        </tr>
+        {{/each}}
+    </script>
+
+</body>
+<script type="text/javascript">
+	$(function () {
+    var form = layui.form;
+    form.render('select');
+    renderArticle();
+    function renderArticle () {
+        $.ajax({
+            url: '/my/article/list',
+            data: {
+                pagenum: 1, // 页码值，默认肯定是1，表示获取第1页的数据
+                pagesize: 20, // 每页显示多少条
+            },
+            success: function (res) {
+                if (res.status === 0) {
+                    $('tbody').html(template('tpl-article', res));
+                }
+            }
+        });
+    }
+});
+</script>
 </html>

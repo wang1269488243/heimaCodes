@@ -1,10 +1,180 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 	<head>
 		<meta charset="UTF-8">
-		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>添加文章</title>
+		<link rel="stylesheet" href="assets/lib/layui/css/layui.css">
+		<link rel="stylesheet" href="assets/lib/nprogress/nprogress.css">
+		<link rel="stylesheet" href="assets/lib/cropper/cropper.css">
+		<link rel="stylesheet" href="assets/css/article/publish.css">
+
+		<script src="assets/lib/jquery.js"></script>
+		<!-- 加载剪裁js -->
+		<script src="assets/lib/cropper/Cropper.js"></script>
+		<script src="assets/lib/cropper/jquery-cropper.js"></script>
+		<!-- 加载富文本编辑器插件 -->
+		<script src="assets/lib/tinymce/tinymce.min.js"></script>
+		<script src="assets/lib/tinymce/tinymce_setup.js"></script>
+		<script src="assets/lib/layui/layui.all.js"></script>
+		<!-- 加载模板引擎 -->
+		<script src="assets/lib/template-web.js"></script>
+		<script src="assets/lib/nprogress/nprogress.js"></script>
+		<script src="assets/js/common.js"></script>
+		<script src="assets/js/article/publish.js"></script>
 	</head>
+
 	<body>
-		文章发表
+		<div class="layui-card">
+			<div class="layui-card-header">写文章</div>
+			<div class="layui-card-body">
+				<!-- 先完成发布，所以随便创建一个表单 -->
+				<form action="" class="layui-form">
+					<!-- 第一行：标题 -->
+					<div class="layui-form-item">
+						<label class="layui-form-label">文章标题</label>
+						<div class="layui-input-block">
+							<input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<!-- 第二行：分类id -->
+					<div class="layui-form-item">
+						<label class="layui-form-label">选择分类</label>
+						<div class="layui-input-block">
+							<select name="cate_id" lay-verify="required">
+
+							</select>
+						</div>
+					</div>
+					<!-- 第三行：内容 -->
+					<div class="layui-form-item layui-form-text">
+						<label class="layui-form-label">文章内容</label>
+						<div class="layui-input-block">
+							<textarea name="content" placeholder="请输入内容"></textarea>
+						</div>
+					</div>
+					<!-- 第四行：文章封面 -->
+					<div class="layui-form-item">
+						<!-- 左侧的 label -->
+						<label class="layui-form-label">文章封面</label>
+						<!-- 选择封面区域 -->
+						<div class="layui-input-block cover-box">
+							<!-- 左侧裁剪区域 -->
+							<div class="cover-left">
+								<img id="image" src="/assets/images/sample2.jpg" alt="" />
+							</div>
+							<!-- 右侧预览区域和选择封面区域 -->
+							<div class="cover-right">
+								<!-- 预览的区域 -->
+								<div class="img-preview"></div>
+								<!-- 选择封面按钮 -->
+								<input type="file" id="file">
+								<button id="chooseImage" type="button" class="layui-btn layui-btn-danger">选择封面</button>
+							</div>
+						</div>
+					</div>
+					<!-- 第五行：按钮 -->
+					<div class="layui-form-item">
+						<div class="layui-input-block">
+							<button id="fabu" class="layui-btn" lay-submit lay-filter="formDemo">发布</button>
+							<button id="caogao" class="layui-btn" lay-submit lay-filter="formDemo">存为草稿</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<!-- 分类的模板 -->
+		<script type="text/html" id="tpl-category">
+			<option value="0">请选择分类</option>
+			{{each data val}}
+			<option value="{{val.Id}}">{{val.name}}</option>
+			{{/each}}
+		</script>
 	</body>
+	<script type="text/javascript">
+		$(function() {
+			var form = layui.form;
+			//初始化富文本编辑器
+			initEditor();
+			//获取分类
+			$.ajax({
+				url: '/my/article/cates',
+				success: function(res) {
+					if(res.status === 0) {
+						// 使用模板引擎，把渲染的结果放到 下拉框里面
+						$('select[name="cate_id"]').html(template('tpl-category', res));
+						// 处理完数据，使用layui提供的办法，更新下拉框
+						form.render('select');
+					}
+				}
+			});
+
+			//封面
+			// 显示默认的剪裁效果
+			var $image = $('#image');
+			var options = {
+				aspectRatio: 400 / 280,
+				preview: '.img-preview'
+			};
+			$image.cropper(options);
+
+			// 点击 选择封面 可以选择图片
+			$('#chooseImage').click(function() {
+				$('#file').click();
+			});
+
+			// 文件域的内容改变的时候，重置剪裁区
+			$('#file').change(function() {
+				// 找到文件对象，为其创建url
+				var url = URL.createObjectURL(this.files[0]);
+				// 销毁剪裁区，更换图片，重建剪裁区
+				$image.cropper('destroy').attr('src', url).cropper(options);
+			});
+
+			//文章
+			var state = '';
+			$('#fabu').click(function() {
+				state = '已发布';
+			});
+			$('#caogao').click(function() {
+				state = '草稿';
+			});
+
+			//发布文章
+			$('form').on('submit', function(e) {
+				e.preventDefault();
+				// 获取表单中的数据
+				var data = new FormData(this); // 传入表单的DOM对象，可以根据表单各项的name属性获取值
+				// 发现，FormData 中没有状态和封面
+				// 追加状态
+				data.append('state', state);
+				$image.cropper('getCroppedCanvas', {
+					height: 280,
+					width: 400
+				}).toBlob(function(blob) {
+					// blob 就是剪裁后，转换后的二进制格式的图片
+					data.append('cover_img', blob);
+					$.ajax({
+						type: 'POST',
+						url: '/my/article/add',
+						data: data, // jQuery默认会把这个对象转成 id=1&name=zs
+						success: function(res) {
+							layer.msg(res.message);
+							// 添加成功了，跳转到文章列表页面
+							if(res.status === 0) {
+								location.href = '/article/article.html';
+							}
+						},
+						// 只要提交FormData数据，绝对不允许把对象转成字符串
+						processData: false, // 禁止data转成字符串。
+						contentType: false // jQuery默认会设置Content-Type: application/x-www-form-urlencoded，指定为false，告诉jQuery不要设置Content-Type
+					});
+				});
+
+			})
+		})
+	</script>
+
 </html>

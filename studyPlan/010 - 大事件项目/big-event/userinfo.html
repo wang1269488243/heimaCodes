@@ -6,48 +6,114 @@
 		<title></title>
 	</head>
 	<link rel="stylesheet" href="assets/lib/layui/css/layui.css">
-	<link rel="stylesheet" type="text/css" href="assets/css/userinfo.css" />
-    <script src="assets/lib/jquery.js"></script>
-    <script src="assets/lib/layui/layui.all.js"></script>
+	<style type="text/css">
+		body {
+			background-color: #f2f3f5;
+			padding: 15px;
+		}
+		
+		.userinfo_box {
+			background-color: #fff;
+		}
+		
+		.userinfo_box .title {
+			height: 42px;
+			line-height: 42px;
+			padding: 0 15px;
+			border-bottom: 1px solid #f6f6f6;
+			color: #333;
+			border-radius: 2px 2px 0 0;
+			font-size: 14px;
+		}
+		
+		.userinfo_form {
+			position: relative;
+			padding: 10px 15px;
+			line-height: 24px;
+		}
+	</style>
+	<script src="assets/lib/jquery.js"></script>
+	<script src="assets/lib/layui/layui.all.js"></script>
+
 	<body>
 		<div class="userinfo_box">
 			<div class="title">
 				修改用户信息
 			</div>
-			 
+
 			<div class="userinfo_form">
-				<form class="layui-form" action="">
+				<form class="layui-form" action="" id="userinfo_form">
 					<div class="layui-form-item">
 						<label class="layui-form-label">登录名称</label>
 						<div class="layui-input-block">
-							<input type="text" name="username" lay-verify="required" autocomplete="off" placeholder="请输入用户名称" class="layui-input">
+							<input id="username" type="text" name="username" lay-verify="required" requiredautocomplete="off" placeholder="请输入用户名称" class="layui-input" readonly="readonly">
 						</div>
 					</div>
-					
+
 					<div class="layui-form-item">
 						<label class="layui-form-label">用户昵称</label>
 						<div class="layui-input-block">
-							<input type="text" name="nickname" lay-verify="" autocomplete="off" placeholder="请输用户昵称" class="layui-input">
+							<input id="nickname" type="text" name="nickname" lay-verify="" autocomplete="off" placeholder="请输用户昵称" class="layui-input">
 						</div>
 					</div>
-					
+
 					<div class="layui-form-item">
 						<label class="layui-form-label">用户邮箱</label>
 						<div class="layui-input-block">
-							<input type="text" name="email" lay-verify="" autocomplete="off" placeholder="请输入用户邮箱" class="layui-input">
+							<input id="email" type="text" name="email" lay-verify="" autocomplete="off" placeholder="请输入用户邮箱" class="layui-input">
 						</div>
 					</div>
-					
+
 					<div class="layui-form-item">
-				    <div class="layui-input-block">
-				      <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">提交修改</button>
-				      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-				    </div>
-				  </div>
+						<div class="layui-input-block">
+							<button type="submit" class="layui-btn" lay-submit="" lay-filter="formDemo">提交修改</button>
+							<button type="" class="layui-btn layui-btn-primary">重置</button>
+						</div>
+					</div>
+
 				</form>
 			</div>
 		</div>
 	</body>
 	<script type="text/javascript">
+		//调用layui的js插件
+		layui.use('element', function() {
+			var element = layui.element;
+		});
+		//将有的基本信息展现到页面上
+		$('#username').val(localStorage.getItem('username'))
+		$('#nickname').val(localStorage.getItem('nickname'))
+		$('#email').val(localStorage.getItem('email'))
+
+		$('#userinfo_form').on('submit', function(e) {
+			e.preventDefault();
+			//拼接上id
+			var data = $(this).serialize() + '&id=' + localStorage.getItem('id');
+			//发送修改信息的请求;
+			$.ajax({
+				type: "post",
+				headers: {
+					Authorization: localStorage.getItem('token')
+				},
+				data: data,
+				url: "http://www.liulongbin.top:3007/my/userinfo",
+				async: true,
+				success: function(res) {
+					console.log(res)
+					if(res.status == 0) {
+						layer.open({
+							title: '成功',
+							content: '用户信息修改成功'
+						});
+					} else {
+						layer.open({
+							title: '失败',
+							content: res.message
+						});
+					}
+				}
+			});
+		})
 	</script>
+
 </html>

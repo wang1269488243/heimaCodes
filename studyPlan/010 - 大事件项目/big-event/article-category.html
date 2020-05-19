@@ -1,10 +1,305 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
 	</head>
+	<link rel="stylesheet" href="assets/lib/layui/css/layui.css">
+	<style type="text/css">
+		body {
+			background-color: #f2f3f5;
+			padding: 15px;
+		}
+		
+		.artcat_box {
+			background-color: #fff;
+			position: relative;
+		}
+		
+		.artcat_box .title {
+			height: 42px;
+			line-height: 42px;
+			padding: 0 15px;
+			border-bottom: 1px solid #f6f6f6;
+			color: #333;
+			border-radius: 2px 2px 0 0;
+			font-size: 14px;
+		}
+		
+		.artcat_form {
+			position: relative;
+			padding: 10px 15px;
+			line-height: 24px;
+		}
+		
+		.addcat {
+			position: absolute;
+			right: 15px;
+			top: 8px;
+		}
+		
+		#addcat {
+			padding: 20px 40px 20px 0;
+			display: none;
+		}
+		
+		#editcat {
+			padding: 20px 40px 20px 0;
+			display: none;
+		}
+		
+		#delcat {
+			padding: 20px 40px 20px 0;
+			display: none;
+		}
+	</style>
+	<script src="assets/lib/jquery.js"></script>
+	<script src="assets/lib/layui/layui.all.js"></script>
+
 	<body>
-		文章类别
+		<div class="artcat_box">
+			<div class="title">
+				文章类别管理
+			</div>
+			<div class="addcat">
+				<button type="button" class="layui-btn layui-btn-sm layui-btn-normal">添加类别</button>
+			</div>
+			<div class="artcat_form">
+				<table class="layui-hide" id="cattable"></table>
+			</div>
+		</div>
+
+		<!--新增表格弹出层-->
+		<div id="addcat">
+			<form class="layui-form" action="" id="addcatlayer">
+				<div class="layui-form-item">
+					<label class="layui-form-label">分类名称</label>
+					<div class="layui-input-block">
+						<input type="text" name="name" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">分类别名</label>
+					<div class="layui-input-block">
+						<input type="text" name="alias" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<div class="layui-input-block">
+						<button class="layui-btn" lay-submit lay-filter="formDemo" id="surecat">确定添加</button>
+						<button type="reset" class="layui-btn layui-btn-primary">取消</button>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<!--编辑表格弹出层-->
+		<div id="editcat">
+			<form class="layui-form" action="" id="editcatlayer">
+				<div class="layui-form-item">
+					<label class="layui-form-label">分类名称</label>
+					<div class="layui-input-block">
+						<input id="name" type="text" name="name" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">分类别名</label>
+					<div class="layui-input-block">
+						<input id="alias" type="text" name="alias" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<div class="layui-input-block">
+						<button class="layui-btn" lay-submit lay-filter="formDemo" id="surecat">确定修改</button>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<!--删除表格弹出层-->
+		<div id="delcat">
+			<form class="layui-form" action="" id="delcatlayer">
+				<div class="layui-form-item">
+					<div class="layui-input-block">
+						<button class="layui-btn" lay-submit lay-filter="formDemo" id="suredel">确定删除</button>
+					</div>
+				</div>
+			</form>
+		</div>
+
 	</body>
+	<!--表格编辑和删除按钮操作-->
+	<script type="text/html" id="opreator">
+		<a class="layui-btn layui-btn-xs" lay-event="edit" id="editbutton">编辑</a>
+		<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" id="delbutton">删除</a>
+	</script>
+	<script type="text/javascript">
+		var table;
+		layui.use('table', function() {
+			table = layui.table;
+			getlist();
+		});
+
+		function getlist() {
+			table.render({
+				elem: '#cattable',
+				headers: {
+					Authorization: localStorage.getItem('token')
+				},
+				url: 'http://www.liulongbin.top:3007/my/article/cates',
+				cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+					,
+				parseData: function(res) { //res 即为原始返回的数据
+					return {
+						"code": res.status, //解析接口状态
+						"msg": res.message, //解析提示文本
+						"count": res.total, //解析数据长度
+						"data": res.data //解析数据列表
+					};
+				},
+				cols: [
+					[{
+						field: 'Id',
+						title: 'ID',
+					}, {
+						field: 'name',
+						title: '分类名称'
+					}, {
+						field: 'alias',
+						title: '分类别名'
+					}, {
+						fixed: 'right',
+						title: '操作',
+						toolbar: '#opreator',
+						width: 200
+					}]
+				]
+			});
+		}
+		//打开新增窗口
+		$('.addcat').on('click', function() {
+			layer.open({
+				title: '添加文章分类',
+				area: ['500px', '250px'],
+				type: 1,
+				content: $('#addcat')
+			});
+		})
+		//打开编辑窗口
+		//外部定义id用来确定对应修改的tr
+
+		$('body').delegate('#editbutton', 'click', function() {
+			layer.open({
+				title: '编辑文章分类',
+				area: ['500px', '250px'],
+				type: 1,
+				content: $('#editcat')
+			});
+			//获取点击编辑按钮的索引
+			var index = $(this).parent().parent().parent().attr('data-index')
+			//获取对应tr的id
+			var id = $("td[data-field='Id']").eq(index).find('div').text()
+			//将id绑定在弹窗form上
+			$('#editcatlayer').attr('data-id', id)
+			//拼接id请求修改的tr
+			var url = 'http://www.liulongbin.top:3007/my/article/cates/' + id
+			$.ajax({
+				type: 'get',
+				url: url,
+				headers: {
+					Authorization: localStorage.getItem('token')
+				},
+				success: function(res) {
+					if(res.status === 0) {
+						$('#name').val(res.data.name)
+						$('#alias').val(res.data.alias)
+					}
+				}
+			})
+
+		})
+		//修改
+		$('#editcatlayer').on('submit', function(e) {
+			e.preventDefault();
+			var data = $(this).serialize() + '&Id=' + $('#editcatlayer').attr('data-id')
+			$.ajax({
+				//将token添加到请求头
+				headers: {
+					Authorization: localStorage.getItem('token')
+				},
+				type: 'post',
+				url: 'http://www.liulongbin.top:3007/my/article/updatecate',
+				data: data,
+				success: function(res) {
+					if(res.status === 0) {
+						getlist();
+					}
+				}
+			});
+			layer.closeAll();
+		})
+
+		//打开删除窗口
+		$('body').delegate('#delbutton', 'click', function() {
+			//获取点击编辑按钮的索引
+			var index = $(this).parent().parent().parent().attr('data-index')
+			//获取对应tr的id
+			var id = $("td[data-field='Id']").eq(index).find('div').text()
+			//将id绑定在弹窗form上
+			$('#delcatlayer').attr('data-id', id)
+			layer.open({
+				title: '删除文章分类',
+				type: 1,
+				content: $('#delcat'),
+				area: ['300px', '150px'],
+				yes: function() {
+					layer.closeAll();
+				}
+			});
+		})
+
+		//确定删除
+		$('#delcatlayer').on('submit', function(e) {
+			e.preventDefault();
+			$.ajax({
+				//将token添加到请求头
+				headers: {
+					Authorization: localStorage.getItem('token')
+				},
+				type: 'get',
+				url: 'http://www.liulongbin.top:3007/my/article/deletecate/' + $('#delcatlayer').attr('data-id'),
+				success: function(res) {
+					if(res.status === 0) {
+						getlist();
+						layer.closeAll();
+					}
+				}
+			});
+		})
+
+		//确定添加
+		$('#addcatlayer').on('submit', function(e) {
+			e.preventDefault();
+			var data = $(this).serialize()
+			$.ajax({
+				//将token添加到请求头
+				headers: {
+					Authorization: localStorage.getItem('token')
+				},
+				type: 'post',
+				url: 'http://www.liulongbin.top:3007/my/article/addcates',
+				data: data,
+				success: function(res) {
+					if(res.status === 0) {
+						getlist()
+					}
+				}
+			});
+			layer.closeAll();
+		})
+
+		//打开编辑窗口,渲染表格数据
+	</script>
+
 </html>
